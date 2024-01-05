@@ -1,0 +1,49 @@
+﻿<div class="row">
+    <img src="@(string.IsNullOrWhiteSpace(memory.Image)?
+"https://cdn.pixabay.com/photo/2019/04/01/17/05/the-text-of-the-4095909_1280.jpg":memory.Image)" />
+</div>
+
+<div class="row">
+    <h1> Add New Memory</h1>
+    <div class="form-group">
+        <label for="Name">Name</label>
+        <input type="text" class="form-control" @bind-value="memory.Name" id="Name" placeholder="Memory Name">
+    </div>
+
+    <div class="form-group">
+        <label for="Description">Description</label>
+        <input type="text" class="form-control" @bind-value="memory.Description" id="Description" placeholder="Memory Description">
+    </div>
+
+    <div class="form-group">
+        <label for="Image">Image</label>
+        <input type="text" class="form-control" @bind-value="memory.Image" id="Image" placeholder="Memory Image">
+    </div>
+
+    <div class="form-group">
+        <label for="Price">Date</label>
+        <input type="number" class="form-control" @bind-value="memory.Date" id="Price" placeholder="Memory Date">
+    </div>
+
+    <button @onclick="addNewMemory" class="mt-4 btn btn-primary">@(isEditing ? "Edit" : "Add Memory")</button>
+</div>
+
+
+
+@code {
+    public bool isEditing { get; set; } = false;
+    public MyMemory memory { get; set; } = new MyMemory();
+
+    [Parameter]
+    public EventCallback<MyMemory> OnAddMemory { get; set; } //communicates with parent to add newly added product to list
+
+    public async Task addNewMemory()
+    {
+        await OnAddMemory.InvokeAsync(memory);
+    }
+    public void EditProduct(MyMemory memoryToEdit)
+    {
+        memory = memoryToEdit;
+        isEditing = true;
+    }
+}

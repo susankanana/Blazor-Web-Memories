@@ -1,0 +1,66 @@
+﻿@page "/"
+@using System.Globalization;
+<div class="row">
+
+    <div class="col-4">
+        <AddMemory @ref="addMemory" OnAddMemory="AddMemory"></AddMemory>
+    </div>
+
+    <div class="col-8">
+        <div class="row">
+            @foreach (var memory in memories)
+            {
+                <SingleMemory memory="memory" OnRemoveMemory="()=> RemoveMemory(memory)" OnEditMemory="EditMemory"></SingleMemory>
+            }
+        </div>
+    </div>
+</div>
+
+@code {
+
+    public List<MyMemory> memories = new List<MyMemory>()
+    {
+         new MyMemory()
+        {
+            Name= "Birthday",
+            Description="24th Birthday",
+            Date= DateTime.Now,
+            Location="Diani Beach",
+            Image= "https://media.istockphoto.com/id/1567735491/photo/birthday-card-with-candy.webp?b=1&s=612x612&w=0&k=20&c=DM6qb_lp5GC9aIwMKpTz5fi9wrjXiDGWNuJasP2RKM4="
+        }
+        ,
+        new MyMemory()
+        {
+            Name= "First Job",
+            Description="Developer at The Jitu",
+            Date= DateTime.Now,
+            Location="Nyeri",
+            Image= "https://cdn.pixabay.com/photo/2015/01/07/15/51/woman-591576_1280.jpg"
+        },
+
+        new MyMemory()
+         {
+            Name= "Graduation",
+            Description="Bsc Mathematics and Computer Science",
+            Date= DateTime.Now,
+            Location="Kenyatta University",
+            Image="https://cdn.pixabay.com/photo/2021/04/25/15/41/flower-6206819_1280.jpg"
+        }
+    };
+    public void AddMemory(MyMemory newmemory)
+    {
+        newmemory.Id = memories.Count + 1;
+        memories.Add(newmemory);
+    }
+
+    public void RemoveMemory(MyMemory memory)
+    {
+        memories.Remove(memory);
+        
+    }
+    public AddMemory addMemory;
+    public void EditMemory(MyMemory memory)
+    {
+        addMemory.EditProduct(memory);
+    }
+}
